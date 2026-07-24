@@ -1,0 +1,8 @@
+﻿等级,检查项,信息,处理方式
+Info,样本规模,原始50000行、23列,记录并核验
+Info,字段完整性,标准字段23个,全部存在
+Warning,原始缺失值,共1500个,确定性清洗后保留缺失；训练折内插补
+Info,完全重复记录,0行,保留首次出现记录
+Warning,业务范围异常,"{""fuel_expense_per_month"": 271}",异常值转缺失并保留清洗明细
+Warning,派生结果变量,monthly_energy_consumption_kwh、monthly_charging_cost,仅审计，不进入三个主模型
+Info,规则清洗后样本数,50000行,输出基础清洗数据

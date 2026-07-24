@@ -1,0 +1,13 @@
+﻿缺失字段,任务,缺失数,卡方检验P值,判断
+education_level,任务一,500,0.22729632701676986,未发现显著关联
+education_level,任务二,500,0.3280781765433179,未发现显著关联
+education_level,任务三,500,0.8891719743604739,未发现显著关联
+fuel_expense_per_month,任务一,271,0.5716310081394276,未发现显著关联
+fuel_expense_per_month,任务二,271,0.3328060677561097,未发现显著关联
+fuel_expense_per_month,任务三,271,0.45434573778608833,未发现显著关联
+charging_station_accessibility,任务一,500,0.6242331584160854,未发现显著关联
+charging_station_accessibility,任务二,500,0.6633509766718143,未发现显著关联
+charging_station_accessibility,任务三,500,0.9677287545699829,未发现显著关联
+ev_knowledge_score,任务一,500,0.5854059528206821,未发现显著关联
+ev_knowledge_score,任务二,500,0.02760617253702213,缺失与标签可能相关
+ev_knowledge_score,任务三,500,0.16210839485323242,未发现显著关联

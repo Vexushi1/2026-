@@ -1,0 +1,20 @@
+﻿字段,类别,样本数,比例
+education_level,Bachelor,22350,0.447
+education_level,High School,12401,0.24802
+education_level,Master,12244,0.24488
+education_level,PhD,2505,0.0501
+education_level,缺失,500,0.01
+city_type,Urban,22645,0.4529
+city_type,Suburban,17348,0.34696
+city_type,Rural,10007,0.20014
+current_vehicle_type,Sedan,17512,0.35024
+current_vehicle_type,SUV,14933,0.29866
+current_vehicle_type,Hatchback,12561,0.25122
+current_vehicle_type,Truck,4994,0.09988
+ev_adoption_likelihood,High,29670,0.5934
+ev_adoption_likelihood,Medium,12078,0.24156
+ev_adoption_likelihood,Low,8252,0.16504
+home_charging_available,1.0,32488,0.64976
+home_charging_available,0.0,17512,0.35024
+previous_ev_experience,0.0,40090,0.8018
+previous_ev_experience,1.0,9910,0.1982
