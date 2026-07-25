@@ -1,150 +1,72 @@
 version: 6.2.5
 project:
   name: 2026年第五届创新杯A题
-  competition: 2026年第五届“创新杯”大学生大数据挑战赛
-  problem: A题
   repository: Vexushi1/2026-
   branch: a-audit-preprocess
-  root_problem_file: 2026年第五届“创新杯”大学生大数据挑战赛A题(1).pdf
-  root_data_file: A题数据集.csv
 
 paper_framework:
   path: 模型论文框架.md
   status: current
-  version: v0.4-current
-  last_sync_scope: 问题一阈值偏移、时间测量扰动、标签噪声、Bootstrap与多随机种子稳定性
+  version: v0.7-current
+  last_sync_scope: 问题二正式图表解释与问题三双结构先验模型
   updated_at: 2026-07-25
 
-locked_model_spec:
-  status: q1_validated
-  name: 数据结构先验驱动的任务适配分类框架
-  stale: false
-
 common_data_audit:
-  script: A题数据审计与预处理.py
-  workbook: 结果数据表/A题数据审计与预处理结果.xlsx
-  preprocessed_data: 预处理数据/A题预处理基础数据.csv
   status: completed
-  summary:
-    rows: 10000
-    columns: 64
-    duplicate_rows: 0
-    duplicate_person_id: 0
-    true_missing_cells: 0
-    numeric_columns: 42
-    categorical_or_time_columns: 22
-    hard_range_violations: 0
-  structural_relations:
-    bmi_formula_accuracy: 1.0
-    sleep_duration_formula_accuracy: 1.0
-    early_waker_threshold_minutes: 389.5
-    early_waker_threshold_accuracy: 1.0
-    fitness_wellness_accuracy: 1.0
-    health_score_wellness_cutpoints: [44.95, 64.95, 79.95]
-    health_score_wellness_accuracy: 1.0
+  rows: 10000
+  columns: 64
+  true_missing_cells: 0
+  duplicate_rows: 0
+  duplicate_person_id: 0
 
 questions:
   q1:
-    name: 早起行为预测
-    primary_type: binary_classification
-    secondary_types:
-      - threshold_identification
-      - probability_calibration
-    capabilities:
-      - threshold_stability
-      - stratified_cv
-      - calibration
-      - multi_algorithm_validation
-      - perturbation_robustness
-      - label_noise_robustness
-      - bootstrap_stability
-    framework_section: Q1：早起者分类
-    script: 问题一求解.py
-    sensitivity_script: 问题一敏感性与鲁棒性.py
-    solution_workbook: 结果数据表/问题一/问题一求解结果.xlsx
-    sensitivity_workbook: 结果数据表/问题一/问题一敏感性与鲁棒性结果.xlsx
-    prediction_file: 结果数据表/问题一/问题一OOF预测结果.csv
     status: validated
-    result_summary_status: current
-    stale: false
+    figures_status: completed
     result:
       threshold_minutes: 389.5
-      threshold_time: 06:29:30
-      equivalent_rule: Wake_Up_Time < 06:30
-      theoretical_perfect_threshold_interval: "(389, 390]"
-      class_margin_minutes: 1.0
       oof_accuracy: 1.0
-      oof_precision: 1.0
-      oof_recall: 1.0
       oof_f1: 1.0
-      oof_balanced_accuracy: 1.0
-      brier_score: 0.0018702309616153922
-      log_loss: 0.007890618927360512
-      misclassified_samples: 0
-      initial_stable_folds: 25
-      extended_stable_folds: 40
-      stable_threshold_minutes: 389.5
-    sensitivity_robustness:
-      status: completed
-      threshold_grid_zero_error_low: 389.1
-      threshold_grid_zero_error_high: 390.0
-      threshold_389_accuracy: 0.9954
-      threshold_389_false_negatives: 46
-      threshold_390_1_accuracy: 0.9939
-      threshold_390_1_false_positives: 61
-      measurement_noise_half_minute_mean_accuracy: 1.0
-      measurement_noise_one_minute_mean_accuracy: 0.99734
-      measurement_noise_one_minute_min_accuracy: 0.9963
-      measurement_noise_two_minutes_mean_accuracy: 0.994871
-      measurement_noise_five_minutes_mean_accuracy: 0.98848
-      measurement_noise_ten_minutes_mean_accuracy: 0.9764975
-      measurement_noise_thirty_minutes_mean_accuracy: 0.929499
-      random_label_flip_max_rate: 0.10
-      random_label_flip_threshold_minutes: 389.5
-      random_label_flip_original_accuracy: 1.0
-      bootstrap_repeats: 500
-      bootstrap_threshold_mean: 389.5
-      bootstrap_threshold_std: 0.0
-      bootstrap_original_accuracy: 1.0
-      constraint_checks_passed: true
   q2:
-    name: 综合健康评分等级预测
-    primary_type: ordinal_multiclass_classification
-    secondary_types:
-      - constrained_discretization
-      - ensemble_learning
-    capabilities:
-      - cutpoint_stability
-      - monotonic_probability
-      - stratified_cv
-      - ordinal_error
-      - ablation
-    framework_section: Q2：健康评分有序等级分类
-    status: designed
-    result_summary_status: pending
-    stale: false
+    status: validated
+    figures_status: completed
+    script: 问题二优化求解.py
+    workbook: 结果数据表/问题二/问题二求解结果.xlsx
+    prediction_file: 结果数据表/问题二/问题二OOF预测结果.csv
+    result:
+      cutpoints: [66.0, 74.6, 82.8]
+      regression_weight: 0.60
+      classification_weight: 0.40
+      oof_accuracy: 0.8927
+      repeat_accuracy: 0.8926
+      macro_f1: 0.8926
+      balanced_accuracy: 0.8925
+      ordinal_mae: 0.1073
+      score_rmse: 1.7113
+      score_mae: 1.3516
+    figures:
+      - 图6-1 健康评分分布与四级切点
+      - 图6-2 问题二 OOF 混淆矩阵
+      - 图8-3 融合权重与模型表现
+      - 图8-4 Bootstrap 切点稳定性
+      - 图8-5 各健康等级识别指标
+      - 图8-6 边界距离与误判集中性
   q3:
-    name: 健康综合类别预测
-    primary_type: multiclass_classification
-    secondary_types:
-      - structural_prior
-      - adaptive_probability_fusion
-    capabilities:
-      - prior_consistency
-      - fallback_validation
-      - masking_robustness
-      - stratified_cv
-    framework_section: Q3：综合健康类别分类
     status: designed
     result_summary_status: pending
-    stale: false
+    script: 问题三求解.py
+    workbook: 结果数据表/问题三/问题三求解结果.xlsx
+    prediction_file: 结果数据表/问题三/问题三OOF预测结果.csv
+    model:
+      primary: Fitness_Level与Health_Score双结构先验
+      fallback: CatBoost四分类回退
+      validation_scenarios: 9
 
 next_gate:
-  name: q1_matlab_figures
+  name: q3_run_and_validate
   blocking_items:
-    - 读取问题一求解结果.xlsx与问题一敏感性与鲁棒性结果.xlsx
-    - 绘制早起标签与起床时间分界图
-    - 绘制阈值偏移与分类性能图
-    - 绘制时间测量扰动与ACC衰减图
-    - 绘制Bootstrap与多随机种子阈值稳定性图
-    - 在q1_plot.m中保留简洁title或sgtitle并同步图表证据链
+    - 运行问题三求解.py
+    - 核验主模型OOF ACC与四类Recall
+    - 核验回退模型ACC和Poor类Recall
+    - 核验9个缺失、错标和扰动场景
+    - 返回问题三求解结果.xlsx与问题三OOF预测结果.csv
