@@ -11,31 +11,37 @@ project:
 paper_framework:
   path: 模型论文框架.md
   status: current
-  version: v0.1-current
-  last_sync_scope: 统一模型主线、独立数据预处理章节、三问模型设计与验证计划
+  version: v0.3-current
+  last_sync_scope: 数据审计实测结果、问题一OOF结果、阈值稳定性与多算法验证
   updated_at: 2026-07-25
 
 locked_model_spec:
-  status: designed
-  name: 数据结构先验驱动的有序集成分类框架
+  status: solved_q1
+  name: 数据结构先验驱动的任务适配分类框架
   stale: false
 
 common_data_audit:
   script: A题数据审计与预处理.py
-  workbook: 结果数据表/数据审计与预处理结果.xlsx
-  status: pending_run
-  required_outputs:
-    - 数据概览
-    - 字段字典
-    - 完整性检查
-    - 特殊类别
-    - 描述统计
-    - 异常与范围
-    - 派生关系
-    - 目标结构
-    - 衍生特征
-    - 特征准入
-    - 管道检查
+  workbook: 结果数据表/A题数据审计与预处理结果.xlsx
+  preprocessed_data: 预处理数据/A题预处理基础数据.csv
+  status: completed
+  summary:
+    rows: 10000
+    columns: 64
+    duplicate_rows: 0
+    duplicate_person_id: 0
+    true_missing_cells: 0
+    numeric_columns: 42
+    categorical_or_time_columns: 22
+    hard_range_violations: 0
+  structural_relations:
+    bmi_formula_accuracy: 1.0
+    sleep_duration_formula_accuracy: 1.0
+    early_waker_threshold_minutes: 389.5
+    early_waker_threshold_accuracy: 1.0
+    fitness_wellness_accuracy: 1.0
+    health_score_wellness_cutpoints: [44.95, 64.95, 79.95]
+    health_score_wellness_accuracy: 1.0
 
 questions:
   q1:
@@ -43,16 +49,34 @@ questions:
     primary_type: binary_classification
     secondary_types:
       - threshold_identification
-      - probability_fusion
+      - probability_calibration
     capabilities:
       - threshold_stability
       - stratified_cv
       - calibration
-      - ablation
-    framework_section: Q1：早起行为预测
-    status: designed
-    result_summary_status: pending
+      - multi_algorithm_validation
+      - perturbation_robustness
+    framework_section: Q1：早起者分类
+    script: 问题一求解.py
+    solution_workbook: 结果数据表/问题一/问题一求解结果.xlsx
+    prediction_file: 结果数据表/问题一/问题一OOF预测结果.csv
+    status: validated
+    result_summary_status: current
     stale: false
+    result:
+      threshold_minutes: 389.5
+      equivalent_rule: Wake_Up_Time < 06:30
+      class_margin_minutes: 1.0
+      oof_accuracy: 1.0
+      oof_precision: 1.0
+      oof_recall: 1.0
+      oof_f1: 1.0
+      oof_balanced_accuracy: 1.0
+      brier_score: 0.0018702309616153922
+      log_loss: 0.007890618927360512
+      misclassified_samples: 0
+      stable_folds: 25
+      stable_threshold_minutes: 389.5
   q2:
     name: 综合健康评分等级预测
     primary_type: ordinal_multiclass_classification
@@ -65,7 +89,7 @@ questions:
       - stratified_cv
       - ordinal_error
       - ablation
-    framework_section: Q2：综合健康评分等级预测
+    framework_section: Q2：健康评分有序等级分类
     status: designed
     result_summary_status: pending
     stale: false
@@ -80,16 +104,15 @@ questions:
       - fallback_validation
       - masking_robustness
       - stratified_cv
-    framework_section: Q3：健康综合类别预测
+    framework_section: Q3：综合健康类别分类
     status: designed
     result_summary_status: pending
     stale: false
 
 next_gate:
-  name: data_audit_and_preprocessing
+  name: q1_sensitivity_and_robustness
   blocking_items:
-    - 运行A题数据审计与预处理.py
-    - 冻结异常处理规则
-    - 复核BMI与睡眠时长派生关系
-    - 冻结问题二等级切点优化口径
-    - 冻结三问特征准入矩阵
+    - 对起床时间加入分钟级测量扰动并确定精度失效区间
+    - 检验固定阈值偏移对ACC的影响
+    - 生成问题一敏感性与鲁棒性结果.xlsx
+    - 冻结问题一正式图表数据与q1_plot.m图标题
