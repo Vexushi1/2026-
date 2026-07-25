@@ -1,0 +1,95 @@
+version: 6.2.5
+project:
+  name: 2026年第五届创新杯A题
+  competition: 2026年第五届“创新杯”大学生大数据挑战赛
+  problem: A题
+  repository: Vexushi1/2026-
+  branch: a-audit-preprocess
+  root_problem_file: 2026年第五届“创新杯”大学生大数据挑战赛A题(1).pdf
+  root_data_file: A题数据集.csv
+
+paper_framework:
+  path: 模型论文框架.md
+  status: current
+  version: v0.1-current
+  last_sync_scope: 统一模型主线、独立数据预处理章节、三问模型设计与验证计划
+  updated_at: 2026-07-25
+
+locked_model_spec:
+  status: designed
+  name: 数据结构先验驱动的有序集成分类框架
+  stale: false
+
+common_data_audit:
+  script: A题数据审计与预处理.py
+  workbook: 结果数据表/数据审计与预处理结果.xlsx
+  status: pending_run
+  required_outputs:
+    - 数据概览
+    - 字段字典
+    - 完整性检查
+    - 特殊类别
+    - 描述统计
+    - 异常与范围
+    - 派生关系
+    - 目标结构
+    - 衍生特征
+    - 特征准入
+    - 管道检查
+
+questions:
+  q1:
+    name: 早起行为预测
+    primary_type: binary_classification
+    secondary_types:
+      - threshold_identification
+      - probability_fusion
+    capabilities:
+      - threshold_stability
+      - stratified_cv
+      - calibration
+      - ablation
+    framework_section: Q1：早起行为预测
+    status: designed
+    result_summary_status: pending
+    stale: false
+  q2:
+    name: 综合健康评分等级预测
+    primary_type: ordinal_multiclass_classification
+    secondary_types:
+      - constrained_discretization
+      - ensemble_learning
+    capabilities:
+      - cutpoint_stability
+      - monotonic_probability
+      - stratified_cv
+      - ordinal_error
+      - ablation
+    framework_section: Q2：综合健康评分等级预测
+    status: designed
+    result_summary_status: pending
+    stale: false
+  q3:
+    name: 健康综合类别预测
+    primary_type: multiclass_classification
+    secondary_types:
+      - structural_prior
+      - adaptive_probability_fusion
+    capabilities:
+      - prior_consistency
+      - fallback_validation
+      - masking_robustness
+      - stratified_cv
+    framework_section: Q3：健康综合类别预测
+    status: designed
+    result_summary_status: pending
+    stale: false
+
+next_gate:
+  name: data_audit_and_preprocessing
+  blocking_items:
+    - 运行A题数据审计与预处理.py
+    - 冻结异常处理规则
+    - 复核BMI与睡眠时长派生关系
+    - 冻结问题二等级切点优化口径
+    - 冻结三问特征准入矩阵
