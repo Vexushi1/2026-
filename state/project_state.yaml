@@ -1,0 +1,87 @@
+version: 6.2.5
+project:
+  name: 2026年第五届创新杯A题
+  repository: Vexushi1/2026-
+  branch: a-audit-preprocess
+
+paper_framework:
+  path: 模型论文框架.md
+  status: current
+  version: v0.11-current
+  last_sync_scope: 问题三类别均衡冻结、MATLAB正式图表与图表证据链
+  updated_at: 2026-07-26
+
+workflow_stage:
+  modeling: completed
+  numerical_solution: completed
+  sensitivity_robustness: completed
+  matlab_figures: completed
+  docx_draft: pending
+  latex_final: pending
+
+questions:
+  q1:
+    status: closed
+    result_status: validated
+    sensitivity_status: completed
+    figures_status: completed
+
+  q2:
+    status: closed
+    result_status: validated
+    sensitivity_status: completed
+    figures_status: completed
+    formal_result:
+      oof_accuracy: 0.8927
+      macro_f1: 0.8926
+      balanced_accuracy: 0.8925
+
+  q3:
+    status: closed
+    result_status: validated
+    sensitivity_status: completed
+    figures_status: completed
+    final_model:
+      name: 排除直接代理变量的Balanced CatBoost四分类模型
+      excluded_fields:
+        - Person_ID
+        - Wellness_Category
+        - Fitness_Level
+        - Health_Score
+      weighting: current_balanced
+      selection_basis:
+        - Balanced Accuracy
+        - Poor Recall
+      oof_accuracy: 0.9013
+      macro_f1: 0.860391
+      balanced_accuracy: 0.910126
+      poor_precision: 0.610465
+      poor_recall: 0.921053
+    robustness:
+      seed_acc_mean: 0.90118
+      seed_acc_std: 0.001803
+      bootstrap_acc_ci95: [0.89530, 0.90720]
+      drop_healthy_aging_acc: 0.8257
+      missing_30_acc: 0.6355
+      noise_sigma5_acc: 0.7818
+      parameter_max_acc_gap: 0.0014
+    plot_script: 结果数据表/问题三/q3_plot.m
+    figures:
+      - 图7-1 正式模型与结构诊断模型对比
+      - 图7-2 正式统计模型混淆矩阵
+      - 图7-3 各健康等级识别指标
+      - 图7-4 正式模型前10特征重要性
+      - 图7-5 结构诊断场景与回退机制对比
+      - 图8-10 多随机种子与Bootstrap稳定性
+      - 图8-11 特征消融与关键特征缺失敏感性
+      - 图8-12 数值扰动与类别权重方案权衡
+      - 图8-13 关键参数敏感性
+
+next_gate:
+  name: docx_draft_and_latex_final
+  blocking_items:
+    - 撰写三问问题分析与模型建立
+    - 写入正式结果表与图后解释
+    - 生成DOCX草稿
+    - 迁移LaTeX终稿
+    - 编译PDF并执行评委式终审
