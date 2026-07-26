@@ -7,66 +7,81 @@ project:
 paper_framework:
   path: 模型论文框架.md
   status: current
-  version: v0.7-current
-  last_sync_scope: 问题二正式图表解释与问题三双结构先验模型
-  updated_at: 2026-07-25
+  version: v0.11-current
+  last_sync_scope: 问题三类别均衡冻结、MATLAB正式图表与图表证据链
+  updated_at: 2026-07-26
 
-common_data_audit:
-  status: completed
-  rows: 10000
-  columns: 64
-  true_missing_cells: 0
-  duplicate_rows: 0
-  duplicate_person_id: 0
+workflow_stage:
+  modeling: completed
+  numerical_solution: completed
+  sensitivity_robustness: completed
+  matlab_figures: completed
+  docx_draft: pending
+  latex_final: pending
 
 questions:
   q1:
-    status: validated
+    status: closed
+    result_status: validated
+    sensitivity_status: completed
     figures_status: completed
-    result:
-      threshold_minutes: 389.5
-      oof_accuracy: 1.0
-      oof_f1: 1.0
+
   q2:
-    status: validated
+    status: closed
+    result_status: validated
+    sensitivity_status: completed
     figures_status: completed
-    script: 问题二优化求解.py
-    workbook: 结果数据表/问题二/问题二求解结果.xlsx
-    prediction_file: 结果数据表/问题二/问题二OOF预测结果.csv
-    result:
-      cutpoints: [66.0, 74.6, 82.8]
-      regression_weight: 0.60
-      classification_weight: 0.40
+    formal_result:
       oof_accuracy: 0.8927
-      repeat_accuracy: 0.8926
       macro_f1: 0.8926
       balanced_accuracy: 0.8925
-      ordinal_mae: 0.1073
-      score_rmse: 1.7113
-      score_mae: 1.3516
-    figures:
-      - 图6-1 健康评分分布与四级切点
-      - 图6-2 问题二 OOF 混淆矩阵
-      - 图8-3 融合权重与模型表现
-      - 图8-4 Bootstrap 切点稳定性
-      - 图8-5 各健康等级识别指标
-      - 图8-6 边界距离与误判集中性
+
   q3:
-    status: designed
-    result_summary_status: pending
-    script: 问题三求解.py
-    workbook: 结果数据表/问题三/问题三求解结果.xlsx
-    prediction_file: 结果数据表/问题三/问题三OOF预测结果.csv
-    model:
-      primary: Fitness_Level与Health_Score双结构先验
-      fallback: CatBoost四分类回退
-      validation_scenarios: 9
+    status: closed
+    result_status: validated
+    sensitivity_status: completed
+    figures_status: completed
+    final_model:
+      name: 排除直接代理变量的Balanced CatBoost四分类模型
+      excluded_fields:
+        - Person_ID
+        - Wellness_Category
+        - Fitness_Level
+        - Health_Score
+      weighting: current_balanced
+      selection_basis:
+        - Balanced Accuracy
+        - Poor Recall
+      oof_accuracy: 0.9013
+      macro_f1: 0.860391
+      balanced_accuracy: 0.910126
+      poor_precision: 0.610465
+      poor_recall: 0.921053
+    robustness:
+      seed_acc_mean: 0.90118
+      seed_acc_std: 0.001803
+      bootstrap_acc_ci95: [0.89530, 0.90720]
+      drop_healthy_aging_acc: 0.8257
+      missing_30_acc: 0.6355
+      noise_sigma5_acc: 0.7818
+      parameter_max_acc_gap: 0.0014
+    plot_script: 结果数据表/问题三/q3_plot.m
+    figures:
+      - 图7-1 正式模型与结构诊断模型对比
+      - 图7-2 正式统计模型混淆矩阵
+      - 图7-3 各健康等级识别指标
+      - 图7-4 正式模型前10特征重要性
+      - 图7-5 结构诊断场景与回退机制对比
+      - 图8-10 多随机种子与Bootstrap稳定性
+      - 图8-11 特征消融与关键特征缺失敏感性
+      - 图8-12 数值扰动与类别权重方案权衡
+      - 图8-13 关键参数敏感性
 
 next_gate:
-  name: q3_run_and_validate
+  name: docx_draft_and_latex_final
   blocking_items:
-    - 运行问题三求解.py
-    - 核验主模型OOF ACC与四类Recall
-    - 核验回退模型ACC和Poor类Recall
-    - 核验9个缺失、错标和扰动场景
-    - 返回问题三求解结果.xlsx与问题三OOF预测结果.csv
+    - 撰写三问问题分析与模型建立
+    - 写入正式结果表与图后解释
+    - 生成DOCX草稿
+    - 迁移LaTeX终稿
+    - 编译PDF并执行评委式终审
